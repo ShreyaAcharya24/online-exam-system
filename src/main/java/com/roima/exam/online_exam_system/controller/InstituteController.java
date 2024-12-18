@@ -48,7 +48,6 @@ public class InstituteController {
 //        response.put("data", instituteResponseDTO);
 //        response.put("timestamp", java.time.Instant.now().toString());
 
-        // Return the response wrapped in ResponseEntity
         return new ResponseEntity<>(instituteResponseDTO, HttpStatus.CREATED);
 
        }

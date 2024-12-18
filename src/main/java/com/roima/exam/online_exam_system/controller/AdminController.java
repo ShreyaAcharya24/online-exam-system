@@ -9,6 +9,7 @@ import com.roima.exam.online_exam_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder pwdEncoder;
 
     @PostMapping("/add")
     public ResponseEntity<AdminResponseDTO> addAdmin(@RequestBody AdminRequestDTO adminRequestDTO){
@@ -31,7 +34,9 @@ public class AdminController {
         user.setFirst_name(adminRequestDTO.getFirst_name());
         user.setLast_name(adminRequestDTO.getLast_name());
         user.setEmail(adminRequestDTO.getEmail());
-        user.setPassword(adminRequestDTO.getPassword());
+
+        String hashedPwd = pwdEncoder.encode(adminRequestDTO.getPassword());
+        user.setPassword(hashedPwd);
         user.setRole("Admin");
 
         User createdUser = userService.addUser(user);

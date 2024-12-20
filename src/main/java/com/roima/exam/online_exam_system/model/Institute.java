@@ -9,6 +9,7 @@ public class Institute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int institute_id;
+
     private String institute_name;
     private String contact;
     private String address;

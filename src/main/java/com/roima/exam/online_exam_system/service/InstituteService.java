@@ -15,4 +15,5 @@ public class InstituteService {
         return instituteRepository.save(institute);
     }
 
+
 }

@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/institutes")
 public class InstituteController {
@@ -40,13 +37,6 @@ public class InstituteController {
         InstituteResponseDTO instituteResponseDTO = new InstituteResponseDTO();
         instituteResponseDTO.setInstitute_name(createdInstitute.getInstitute_name());
         instituteResponseDTO.setInstiute_id(createdInstitute.getInstitute_id());
-
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("status", "success");
-//        response.put("code", HttpStatus.CREATED.value());
-//        response.put("message", "Institute created successfully");
-//        response.put("data", instituteResponseDTO);
-//        response.put("timestamp", java.time.Instant.now().toString());
 
         return new ResponseEntity<>(instituteResponseDTO, HttpStatus.CREATED);
 

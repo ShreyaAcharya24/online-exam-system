@@ -8,22 +8,22 @@ public class Difficulty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int level_id;
-    private String level_name;
+    private int levelId;
+    private String levelName;
 
-    public int getLevel_id() {
-        return level_id;
+    public int getLevelId() {
+        return levelId;
     }
 
-    public void setLevel_id(int level_id) {
-        this.level_id = level_id;
+    public void setLevelId(int level_id) {
+        this.levelId = level_id;
     }
 
-    public String getLevel_name() {
-        return level_name;
+    public String getLevelName() {
+        return levelName;
     }
 
-    public void setLevel_name(String level_name) {
-        this.level_name = level_name;
+    public void setLevelName(String level_name) {
+        this.levelName = level_name;
     }
 }

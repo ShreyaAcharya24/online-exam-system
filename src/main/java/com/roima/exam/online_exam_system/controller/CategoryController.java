@@ -1,7 +1,6 @@
 package com.roima.exam.online_exam_system.controller;
 
 import com.roima.exam.online_exam_system.model.Category;
-import com.roima.exam.online_exam_system.repository.CategoryRepository;
 import com.roima.exam.online_exam_system.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,9 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
+
     @PostMapping("/add")
-public ResponseEntity<Category> addCategory(@RequestBody Category category){
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
 
         Category createdCategory = categoryService.addCategory(category);
 

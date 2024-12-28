@@ -25,7 +25,7 @@ public class DifficultyController {
     public ResponseEntity<Difficulty> addDifficulty(@RequestBody Difficulty difficulty){
 
         Difficulty createdDifficulty = difficultyService.addDifficulty(difficulty);
-        return  new ResponseEntity<>(createdDifficulty, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdDifficulty, HttpStatus.CREATED);
 
     }
 }

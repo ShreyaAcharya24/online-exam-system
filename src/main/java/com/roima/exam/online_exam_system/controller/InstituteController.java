@@ -1,16 +1,11 @@
 package com.roima.exam.online_exam_system.controller;
 
-import com.roima.exam.online_exam_system.dto.InstituteRequestDTO;
-import com.roima.exam.online_exam_system.dto.InstituteResponseDTO;
-import com.roima.exam.online_exam_system.model.Institute;
+import com.roima.exam.online_exam_system.dto.InstituteDTO;
 import com.roima.exam.online_exam_system.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/institutes")
@@ -23,22 +18,27 @@ public class InstituteController {
         this.instituteService = instituteService;
     }
 
+    //    Add new Institute
     @PostMapping("/add")
-    public ResponseEntity<InstituteResponseDTO> addInstitute(@RequestBody InstituteRequestDTO instituteRequestDTO){
-        System.out.println("***Inside Post ****");
+    public InstituteDTO saveInstitute(@RequestBody InstituteDTO instituteDTO) {
 
-        Institute institute = new Institute();
-        institute.setInstitute_name(instituteRequestDTO.getInstitute_name());
-        institute.setAddress(instituteRequestDTO.getAddress());
-        institute.setContact(instituteRequestDTO.getContact());
+        return this.instituteService.saveInstitute(instituteDTO);
+    }
 
-        Institute createdInstitute = instituteService.addInstitute(institute);
+    //    Get All institutes
+    @GetMapping("/get")
+    public List<InstituteDTO> getAllInstitutes() {
+        return instituteService.getAllInstitutes();
+    }
 
-        InstituteResponseDTO instituteResponseDTO = new InstituteResponseDTO();
-        instituteResponseDTO.setInstitute_name(createdInstitute.getInstitute_name());
-        instituteResponseDTO.setInstiute_id(createdInstitute.getInstitute_id());
+// Delete Institute
+    @DeleteMapping("/delete/{id}")
+    public void deleteInstitute(@PathVariable int id) {
+        if (instituteService.deleteInstitute(id)) {
+            System.out.println("**** Institute Deleted ******");
+        } else {
+            System.out.println("***** Institute Not Deleted ****");
+        }
 
-        return new ResponseEntity<>(instituteResponseDTO, HttpStatus.CREATED);
-
-       }
+    }
 }

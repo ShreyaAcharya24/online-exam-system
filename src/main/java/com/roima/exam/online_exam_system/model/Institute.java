@@ -14,19 +14,19 @@ public class Institute {
     private String contact;
     private String address;
 
-    public int getInstitute_id() {
+    public int getInstituteId() {
         return institute_id;
     }
 
-    public void setInstitute_id(int institute_id) {
+    public void setInstituteId(int institute_id) {
         this.institute_id = institute_id;
     }
 
-    public String getInstitute_name() {
+    public String getInstituteName() {
         return institute_name;
     }
 
-    public void setInstitute_name(String institute_name) {
+    public void setInstituteName(String institute_name) {
         this.institute_name = institute_name;
     }
 

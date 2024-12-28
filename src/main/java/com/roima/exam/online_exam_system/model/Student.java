@@ -1,18 +1,52 @@
 package com.roima.exam.online_exam_system.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Table(name="student")
+@Table(name = "student")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int student_id;
-    private int user_id;
-    private int institute_id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false
+    )
+    private User user;
+    private String firstname;
+    private String lastname;
+
+    @JoinColumn(name = "institute_id", referencedColumnName = "institute_id", nullable = false)
+    @ManyToOne
+    private Institute institute;
+
     private String contact;
+
+
+    public Institute getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
     public int getStudent_id() {
         return student_id;
@@ -22,22 +56,6 @@ public class Student {
         this.student_id = student_id;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public int getInstitute_id() {
-        return institute_id;
-    }
-
-    public void setInstitute_id(int institute_id) {
-        this.institute_id = institute_id;
-    }
-
     public String getContact() {
         return contact;
     }
@@ -45,4 +63,13 @@ public class Student {
     public void setContact(String contact) {
         this.contact = contact;
     }
+
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 }

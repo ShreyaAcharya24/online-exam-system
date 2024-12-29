@@ -1,5 +1,6 @@
 package com.roima.exam.online_exam_system.controller;
 
+import com.roima.exam.online_exam_system.dto.QuestionRequestDTO;
 import com.roima.exam.online_exam_system.dto.QuestionResponseDTO;
 import com.roima.exam.online_exam_system.model.QuestionBank;
 import com.roima.exam.online_exam_system.service.QuestionBankService;
@@ -21,7 +22,7 @@ public class QuestionBankController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<QuestionResponseDTO> addQuestion(@RequestBody QuestionBank reqQuestion) {
+    public ResponseEntity<QuestionResponseDTO> addQuestion(@RequestBody QuestionRequestDTO reqQuestion) {
         QuestionResponseDTO createdQue = questionBankService.addQuestion(reqQuestion);
 
         return new ResponseEntity<>(createdQue, HttpStatus.OK);

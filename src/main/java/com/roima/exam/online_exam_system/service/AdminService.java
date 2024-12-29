@@ -9,17 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminService {
 
-    @Autowired
     private StudentRepository studentRepository;
-    @Autowired
     private AdminRepository adminRepository;
 
-    public AdminService(AdminRepository adminRepository){
+    @Autowired
+    public AdminService(AdminRepository adminRepository, StudentRepository studentRepository) {
         this.adminRepository = adminRepository;
+        this.studentRepository = studentRepository;
     }
 
-    public Admin addAdmin(Admin admin){
+    public Admin addAdmin(Admin admin) {
         return adminRepository.save(admin);
     }
-
 }

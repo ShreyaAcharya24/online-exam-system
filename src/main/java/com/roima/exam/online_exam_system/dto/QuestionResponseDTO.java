@@ -10,7 +10,7 @@ public record QuestionResponseDTO(
         String quecategory,
         String quetype,
         String quedifficulty,
-        String email,
+        String email, // try to send Name instead of email
         Role role,
         LocalDateTime createdAt) {
 }

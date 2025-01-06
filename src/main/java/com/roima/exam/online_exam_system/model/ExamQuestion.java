@@ -17,7 +17,7 @@ public class ExamQuestion {
 
     @ManyToOne
     @MapsId("questionId") // use the questionId from composite key
-    @JoinColumn(name = "question_id", referencedColumnName = "question_id")
+    @JoinColumn(name = "questionId", referencedColumnName = "questionId")
     // question_id is column name in exam_question table, questionId pk in QuestionBank
     private QuestionBank question;
 

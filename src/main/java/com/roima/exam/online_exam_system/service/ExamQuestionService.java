@@ -7,9 +7,7 @@ import com.roima.exam.online_exam_system.model.QuestionBank;
 import com.roima.exam.online_exam_system.repository.ExamQuestionRepository;
 import com.roima.exam.online_exam_system.repository.QuestionBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -31,15 +29,16 @@ public class ExamQuestionService {
 
     public boolean addQuestionsToExam(int examId, List<Integer> questionIds) {
 
+        Exam exam = examService.findById(examId);
+
         for (int id : questionIds) {
 
             QuestionBank question = questionBankService.findById(id);
-            Exam exam = examService.findById(examId);
 
 //          Create Composite PK
             ExamQuestionId examQueId = new ExamQuestionId();
             examQueId.setExamId(exam.getExamId());
-            examQueId.setQuestionId(question.getQuestion_id());
+            examQueId.setQuestionId(question.getQuestionId());
 
 //          Add entry of question_d and exam_id in exam_question table
             ExamQuestion newExamQuestion = new ExamQuestion();

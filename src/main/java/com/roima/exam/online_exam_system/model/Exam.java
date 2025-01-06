@@ -1,11 +1,13 @@
 package com.roima.exam.online_exam_system.model;
 
+import com.roima.exam.online_exam_system.enums.Availability;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "exam")
@@ -44,6 +46,21 @@ public class Exam {
     @ManyToOne
     @JoinColumn(name = "updatedBy")
     private User updatedBy;
+
+    @Enumerated(EnumType.STRING)
+    private Availability examStatus;
+
+    @OneToMany(mappedBy = "exam")
+    private List<ExamQuestion> examQuestions;
+
+    public Availability getExamStatus() {
+        return examStatus;
+    }
+
+    public void setExamStatus(Availability examStatus) {
+        this.examStatus = examStatus;
+    }
+
 
     public int getExamId() {
         return examId;

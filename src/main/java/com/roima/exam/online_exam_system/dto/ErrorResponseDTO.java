@@ -1,6 +1,7 @@
 package com.roima.exam.online_exam_system.dto;
 
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 

@@ -6,17 +6,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-
 @SpringBootApplication
 public class OnlineExamSystemApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OnlineExamSystemApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OnlineExamSystemApplication.class, args);
+    }
 
-	@Bean
-	public BCryptPasswordEncoder pwdEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder pwdEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

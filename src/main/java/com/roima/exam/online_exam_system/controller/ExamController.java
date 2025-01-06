@@ -1,38 +1,39 @@
 package com.roima.exam.online_exam_system.controller;
 
-import com.roima.exam.online_exam_system.dto.ErrorResponseDTO;
-import com.roima.exam.online_exam_system.dto.ExamRequestDTO;
-import com.roima.exam.online_exam_system.dto.ExamResponseDTO;
+import com.roima.exam.online_exam_system.dto.*;
 import com.roima.exam.online_exam_system.model.Admin;
 import com.roima.exam.online_exam_system.model.Exam;
 import com.roima.exam.online_exam_system.model.User;
-import com.roima.exam.online_exam_system.service.AdminService;
-import com.roima.exam.online_exam_system.service.ExamQuestionService;
-import com.roima.exam.online_exam_system.service.ExamService;
-import com.roima.exam.online_exam_system.service.UserService;
+import com.roima.exam.online_exam_system.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/exams")
 public class ExamController {
 
     private final AdminService adminService;
+    private final HttpSession httpSession;
+    private final EnrollmentService enrollmentService;
+    private final QuestionBankService questionBankService;
     ExamService examService;
     ExamQuestionService examQuestionService;
     UserService userService;
 
     @Autowired
-    public ExamController(UserService userService,ExamService examService, ExamQuestionService examQuestionService, AdminService adminService) {
+    public ExamController(UserService userService, ExamService examService, ExamQuestionService examQuestionService, AdminService adminService, HttpSession httpSession, EnrollmentService enrollmentService, QuestionBankService questionBankService) {
         this.examService = examService;
         this.userService = userService;
         this.examQuestionService = examQuestionService;
         this.adminService = adminService;
+        this.httpSession = httpSession;
+        this.enrollmentService = enrollmentService;
+        this.questionBankService = questionBankService;
     }
 
     @PostMapping("/create")
@@ -69,4 +70,14 @@ public class ExamController {
 
         }
     }
+
+
+//    ****** Get Exam Details *************
+    @GetMapping("/get-questions/{examId}")
+    public ResponseEntity<List<QuestionDTO>> getQuestionsinExam(@PathVariable int examId){
+        List<QuestionDTO> displayQuestions = examService.getExamQuestions(examId);
+        return ResponseEntity.ok(displayQuestions);
+
+    }
+
 }

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Question Page</title>
+    <style>
+        .option-box {
+            background-color: #4A90E2;
+            border: 1px solid #2D7BB3;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .option-box:hover {
+            background-color: #357ABD;
+        }
+
+        .selected {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+<h2>ROIMA Placement Drive</h2>
+
+<div id="questionSection" style="display: none;">
+    <div id="questionContent"></div>
+    <div id="optionsContainer"></div>
+    <button id="nextBtn" onclick="loadNextQuestion()">Next Question</button>
+    <button id="submitBtn" onclick="submitAnswers()" style="display: none;">Submit Answer</button>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let answers = [];
+    let questions = [];
+
+    // Get the examId from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const examId = urlParams.get('examId');
+
+    if (!examId) {
+        alert("Exam ID is missing. Redirecting back...");
+        window.location.href = "exam.html";
+    }
+
+
+    // Display the question and its options
+    function displayQuestion(index) {
+        if (index >= questions.length) {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            return;
+        }
+
+        const question = questions[index];
+        document.getElementById('questionContent').innerText = question.questionText;
+
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = '';  // Clear previous options
+        question.options.forEach(option => {
+            const optionBox = document.createElement('div');
+            optionBox.classList.add('option-box');
+            optionBox.innerText = option.optionText;
+            optionBox.setAttribute('data-option-id', option.optionId);
+            optionBox.setAttribute('data-question-id', question.questionId);
+            optionBox.onclick = () => selectOption(optionBox);
+            optionsContainer.appendChild(optionBox);
+        });
+
+        document.getElementById('questionSection').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'inline-block';
+        document.getElementById('submitBtn').style.display = 'none';
+    }
+
+    // Highlight the selected option and store it in the answers array
+    function selectOption(optionBox) {
+        const selectedOption = optionBox.getAttribute('data-option-id');
+        const selectedQuestion = optionBox.getAttribute('data-question-id');
+
+        // Highlight selected option
+        const allOptions = document.querySelectorAll('.option-box');
+        allOptions.forEach(option => option.classList.remove('selected'));
+        optionBox.classList.add('selected');
+
+        // Store the selected answer
+        answers[currentQuestionIndex] = {
+            questionId: selectedQuestion,
+            optionId: selectedOption
+        };
+    }
+
+    // Load the next question
+    function loadNextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion(currentQuestionIndex);
+        } else {
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'inline-block';
+        }
+    }
+
+    // Fetch questions for the given examId
+    fetch(`exams/get-questions/${examId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // Log the entire response to verify
+            if (Array.isArray(data) && data.length > 0) {
+                questions = data;  // Use the direct array
+                console.log(questions);  // Log the questions to verify
+                displayQuestion(currentQuestionIndex);  // Display the first question
+            } else {
+                alert('No questions found for this exam.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching questions:', error);
+            alert('Error fetching questions. Please try again later.');
+        });
+
+
+    // Submit answers
+    // function submitAnswers() {
+    //     fetch('/submit-answers', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(answers)
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log('Answers submitted successfully:', data);
+    //             alert('Your answers have been submitted!');
+    //         })
+    //         .catch(error => {
+    //             console.error('Error submitting answers:', error);
+    //             alert('There was an error submitting your answers. Please try again later.');
+    //         });
+
+</script></body>
+</html>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.roima.exam.online_exam_system.OnlineExamSystemApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 34.15 s -- in com.roima.exam.online_exam_system.OnlineExamSystemApplicationTests

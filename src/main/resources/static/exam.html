@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Exam Instruction Page</title>
+</head>
+<body>
+<h1>Welcome to the Exam</h1>
+<p id="message" style="color: red;"></p>
+<div id="examDetails" style="display: none;">
+    <p><strong>Title:</strong> <span id="examTitle"></span></p>
+    <p><strong>Instructions:</strong> <span id="examInstructions"></span></p>
+    <p><strong>Total Marks:</strong> <span id="examTotalMarks"></span></p>
+    <p><strong>Duration:</strong> <span id="examDuration"></span> minutes</p>
+    <button id="startExamBtn" style="display: none;">Start Exam</button>
+</div>
+
+<script>
+    // Fetch exam eligibility and details
+    fetch('enrollments/check-eligibility')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Unauthorized or error in fetching details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the response data
+            if (data.message === "Unauthorised: No Student Id in session") {
+                document.getElementById('message').innerText = "Unauthorized: Please login to access this page.";
+                return;
+            }
+
+            // Display the message
+            document.getElementById('message').innerText = data.message;
+
+            // If eligible, display exam details and the start button
+            if (data.message === "Please click on start button to start the exam" && data.data) {
+                const examData = data.data;
+                const examId = examData.examId;
+
+                document.getElementById('examTitle').innerText = examData.title;
+                document.getElementById('examInstructions').innerText = examData.instructions;
+                document.getElementById('examTotalMarks').innerText = examData.totalmarks;
+                document.getElementById('examDuration').innerText = examData.duration;
+
+                document.getElementById('examDetails').style.display = 'block';
+                document.getElementById('startExamBtn').style.display = 'inline-block';
+
+                document.getElementById('startExamBtn').addEventListener('click', function () {
+                window.location.href = `QuestionPage.html?examId=${examId}`;
+                });
+            }
+        }).catch(error => {
+        console.error('Error fetching exam details:', error);
+        document.getElementById('message').innerText = "Error fetching exam details. Please try again later.";
+    });
+</script>
+</body>
+</html>

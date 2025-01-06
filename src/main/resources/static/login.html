@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Welcome to Roima's Exam Portal</h1>
+<div class="login-container">
+    <form id="login-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Display Error Message -->
+    <div class="error-message" id="error-message" style="display: none;"></div>
+</div>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('http://localhost:8080/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.status === 'success') {
+                    // Redirect to the specified URL
+                    window.location.href = data.redirectUrl;
+                }
+            } else {
+                const data = await response.json();
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('error-message').innerText = data.message || 'Invalid credentials, please try again.';
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('error-message').innerText = 'An error occurred. Please try again later.';
+        }
+    });
+</script>
+</body>
+</html>
